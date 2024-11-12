@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            position: relative;
+            padding: 20px;
+        }
+
+        #logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 80px;
+            height: auto;
+        }
+
+        #lbl {
+            margin-left: 100px; /* Adjust to leave space for the logo */
+            font-size: 2em;
+            color: #333;
+            text-align: left;
+        }
+
+        form {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            left: 300px;
+            top: 200px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 350px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #555;
+            outline: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            width: 100px;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #444;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            background-color: #222;
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="/static/logo.png" id="logo">
+        <h1 id="lbl">Nex-Al Dashboard</h1>
+    </header>
+
+
+    <form action='/checkadmin' method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Enter admin username" name="username" id="username_input">
+        <input type="password" placeholder="Enter your password" name="password" id="password_input">
+        <button type="submit">Submit</button>
+    </form>
+    
+</html>
+

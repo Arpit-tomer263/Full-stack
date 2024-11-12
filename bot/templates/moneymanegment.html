@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot Money Management</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Container for logo and label */
+        .header {
+            margin-top: 6%;
+            /* Space from the top */
+            margin-left: 5%;
+            /* Space from the left */
+        }
+
+        #logo {
+            width: 90px;
+            height: 90px;
+            background-image: url('/static/logo.png');
+            /* Corrected logo image URL */
+            background-size: contain;
+            position: absolute;
+            left: 50px;
+            top: 20px;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+            /* Space between logo and label */
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            position: absolute;
+            left: 170px;
+            /* Dark gray text color */
+            top: 50px;
+        }
+
+        #input_box {
+            position: fixed;
+            /* Position relative for the button */
+            width: 80%;
+            /* Width of the input box */
+            top: 90%;
+            /* Space from the bottom */
+            left: 5%;
+            display: block;
+            z-index: 3;
+        }
+
+        #gap {
+            position: relative;
+            top: 850px;
+            height: 100px;
+            width: 500px;
+            
+        }
+
+        #input {
+            width: 100%;
+            /* Full width of the input box */
+            height: 50px;
+            /* Height of the input box */
+            border-radius: 10px;
+            /* Rounded corners */
+            padding: 10px;
+            /* Padding inside the input */
+            border: 2px solid rgba(0, 0, 0, 0.5);
+            /* Border color and thickness */
+            font-size: 16px;
+            /* Font size for better readability */
+            outline: none;
+            /* Remove default outline */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+            transition: border-color 0.3s;
+            /* Smooth transition for border color */
+            z-index: 3;
+        }
+
+        #input::placeholder {
+            color: rgba(0, 0, 0, 0.6);
+            /* Placeholder text color */
+        }
+
+        #input:focus {
+            border-color: rgba(0, 0, 0, 0.8);
+            /* Darker border on focus */
+        }
+
+        #sendBtn {
+            position: fixed;
+            right: 4%;
+            /* Align to the right */
+            top: 91%;
+            /* Align to the top */
+            width: 100px;
+            /* Width of the button */
+            height: 50px;
+            /* Height of the button */
+            border-radius: 10px;
+            /* Rounded corners */
+            background-color: #ffbd03;
+            /* Button color */
+            color: white;
+            /* Button text color */
+            display: block;
+            /* Use flex to center text */
+            cursor: pointer;
+            /* Change cursor to pointer */
+            z-index: 3;
+        }
+
+        #btn_lbl {
+            position: absolute;
+            top: 17px;
+            left: 30px;
+            z-index: 3;
+        }
+
+        #warning {
+            position: absolute;
+            color: red;
+            display: none;
+            /* Initially hidden */
+            top: 95%;
+            left: 50%;
+        }
+
+        #message {
+            display: none;
+            /* Initially hidden */
+            margin-top: 20px;
+            /* Space from the input box */
+            color: green;
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            /* Message color */
+        }
+
+        #message_img {
+            display: none;
+            position: absolute;
+            width: 50px;
+            /* Size of the logo in the message */
+            height: 50px;
+            /* Size of the logo in the message */
+            margin-right: 10px;
+            /* Space between image and text */
+            background-size: contain;
+            left: 10%;
+            top: 20%;
+        }
+
+        .Data {
+            position: absolute;
+            left: 20%;
+            z-index: 10;
+            height: 120vh;
+        }
+
+        /* Styles for the table */
+        table {
+            border-collapse: collapse;
+            /* Ensures no double borders */
+            width: 80%;
+            /* Adjust table width */
+            margin-top: 30px;
+            /* Space from top */
+            margin-left: 10%;
+            position: absolute;
+            /* Absolute positioning */
+            top: 10%;
+            height: calc(100% - 72px);
+            bottom: 500px;
+            
+        }
+
+
+        th,
+        td {
+            border: 1px solid #333;
+            /* Add border to cells */
+            padding: 5px;
+            /* Add padding for readability */
+            text-align: center;
+            /* Center-align text */
+        }
+
+        th {
+            background-color: #f2f2f2;
+            /* Light gray background for headers */
+        }
+        .table_wrraper{
+            position: relative; /* Ensures that the absolute positioning inside it works properly */
+            padding-bottom: 72px;
+            height: 0px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div id="logo"></div>
+        <h1>Al-Nex Money Management AI</h1>
+    </div>
+
+    <form id="input_box" method="post">
+        {% csrf_token %}
+        <input id="input" name="initial_amount" placeholder="Enter the amount of your capital">
+    </form>
+    <div id="sendBtn"
+        onClick="document.getElementById('input_box').submit(); this.style.display = 'none'; document.getElementById('input').style.display = 'none';">
+        <p id="btn_lbl">Send</p>
+    </div>
+
+    {% if error %}
+    <div id="warning">{{ error }}</div>
+    {% endif %}
+
+    {% if results %}
+    <div id="message">Results:</div>
+    <div id="message_img"></div>
+    <div class="table_wrraper">
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Initial Amount</th>
+                <th>Profit</th>
+                <th>Total Amount</th>
+                <th>Trade Amount</th>
+                <th>MTG</th>
+                <th>Trades</th>
+                <th>Stop Loss</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ result.0|floatformat:2 }}</td>
+                <td>{{ result.1|floatformat:2 }}</td>
+                <td>{{ result.2|floatformat:2 }}</td>
+                <td>{{ result.3|floatformat:2 }}</td>
+                <td>{{ result.4|floatformat:2 }}</td>
+                <td>{{ result.5 }}</td>
+                <td>{{ result.6 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% endif %}
+    <div id="gap"></div>
+</body>
+
+<script>
+
+    var warning = document.getElementById("warning");
+    var message = document.getElementById("message");
+    var input_box = document.getElementById("input_box");
+    var message_img = document.getElementById("message_img");
+    var input = document.getElementById("input"); // Get the input element directly
+    var btn = document.getElementById("sendBtn");
+    var gap = document.getElementById("gap");
+
+
+    // Add an event listener to the button
+    btn.addEventListener("click", function (event) {
+         gap.style.display = "block";
+
+    });
+
+    // After page reload, check the session storage item and set elements to display: none
+    window.addEventListener("load", function () {
+        if (sessionStorage.getItem("hideElements") === "true") {
+            btn.style.display = "none";
+            input.style.display = "none";
+            sessionStorage.removeItem("hideElements"); // Remove the session storage item
+        }
+    });
+</script>
+
+
+
+
+
+</html>

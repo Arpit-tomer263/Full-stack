@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    #hed {
+        position: absolute;
+        top: 0;
+        width: 1530px;
+        height: 220px;
+        background-image: url(/static/dsimg.jpeg);
+        background-size: cover;
+    }
+
+    #containerright {
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        height: 800px;
+        width: 1000px;
+        background-color: rgba(0, 0, 0, 1);
+        border-radius: 30px;
+    }
+
+    #containerleft {
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        background-color: black;
+        height: 800px;
+        width: 300px;
+        border-radius: 40px;
+    }
+
+    #dhs {
+        position: absolute;
+        top: 30px;
+        left: 70px;
+        font-size: 30px;
+        color: white;
+        font-weight: 900;
+    }
+
+    #My_bnc {
+        position: absolute;
+        top: 150px;
+        left: 120px;
+        font-weight: 800;
+        font-size: 30px;
+        color: white;
+    }
+
+    #rs {
+        position: absolute;
+        top: 150px;
+        left: 100px;
+        color: grey;
+        font-size: 25px;
+    }
+
+    #bnc_lbl {
+        position: absolute;
+        color: grey;
+        top: 110px;
+        left: 100px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    #percent {
+        position: absolute;
+        top: 110px;
+        left: 280px;
+        color: rgba(0, 150, 0, 1);
+
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    #inv_lbl {
+        position: absolute;
+        top: 110px;
+        left: 368px;
+        font-size: 18px;
+        font-weight: 500;
+        color: grey;
+    }
+
+    #rs_inv {
+        position: absolute;
+        top: 150px;
+        left: 362px;
+        font-size: 25px;
+        color: grey;
+    }
+
+    #My_inv {
+        position: absolute;
+        top: 150px;
+        left: 379px;
+        font-size: 30px;
+        color: white;
+        font-weight: 800;
+    }
+
+    #percent_inv {
+        position: absolute;
+        top: 112px;
+        left: 533px;
+        color: rgba(0, 150, 0, 1);
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    #cst{
+        position: absolute;
+        top: 110px;
+        left: 616px;
+        color: grey;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    #cst_nm{
+        position: absolute;
+        top: 152px;
+        left: 620px;
+        color: white;
+        font-size: 30px;
+        font-weight: 800;
+    }
+    #percent_cst{
+        position: absolute;
+        top: 112px;
+        left: 775px;
+        font-size: 18px;
+        color: rgb(0, 150, 0);
+        font-weight: 700;
+    }
+    #Statics{
+        position: absolute;
+        top: 300px;
+        color: white;
+        font-size: 30px;
+        font-weight: 700;
+        left: 80px;
+    }
+
+    #img{
+        background-image: url(/static/logo_nav.jpg);
+        background-size: cover;
+        position: absolute;
+        top: 370px;
+        left: 80px;
+        height: 70px;
+        width: 70px;
+        border-radius: 20px;
+    }
+    #cmpny{
+        position: absolute;
+        top: 380px;
+        left: 200px;
+        color: grey;
+        font-size: 20px;
+        font-weight: 700;
+    }
+    #cmpny_valrs,#cmpny_val,#cmpny_valpercent{
+        position: absolute;
+        top: 410px;
+        left: 200px;
+        color: grey;
+        font-size: 18px;
+    }
+    #cmpny_val{
+        left: 220px;
+        font-size: 25px;
+        font-weight: 800;
+        color: white;
+    }
+    #cmpny_valpercent{
+        left: 350px;
+        font-size: 18px;
+        color: rgb(0, 150, 0);
+        font-weight: 700;
+    }
+    #max{
+        position: absolute;
+        top: 380px;
+        left: 800px;
+        height: 50px;
+        width: 60px;
+        border-radius: 10px;
+        background-color: orange;
+        color: white;
+    }
+    #mychart{
+        position: absolute;
+        top: 500px;
+    }
+</style>
+
+<body>
+    <div id="hed"></div>
+    <div id="containerright">
+        <div class="ttl_rven">
+            <p id="dhs">Overall Portfolio</p>
+            <p id="bnc_lbl">Total revenue</p>
+            <p id="rs">₹</p>
+            <p id="My_bnc">0</p>
+            <p id="percent">^ +0%</p>
+        </div>
+        <div class="investment">
+            <p id="inv_lbl">Investment</p>
+            <p id="rs_inv">₹</p>
+            <p id="My_inv">0</p>
+            <p id="percent_inv">^ +0%</p>
+        </div>
+        <div class="ttl_cutomer">
+            <p id="cst">Total Customer</p>
+            <p id="cst_nm">0</p>
+            <p id="percent_cst">^ +0%</p>
+        </div>
+        <div id="bottom">
+            <p id="Statics">Overview Statics</p>
+            <div id="img"></div>
+            <p id="cmpny">Nex-Al EA Inc.LTD</p>
+            <p id="cmpny_valrs">₹</p>
+            <p id="cmpny_val">0</p>
+            <p id="cmpny_valpercent">^ +0%</p>
+            <button id="max">Max</button>
+            <canvas id="myChart" style="width: 100%; height: 50vh;"></canvas>
+        </div>
+    </div>
+    <div id="containerleft">
+
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sample data for demonstration
+    const labels = ['08/11', '09/11', '10/11', '11/11', '12/11', '13/11', '14/11', '15/11', '16/11', '17/11'];
+    const priceData = [10000, 15000, 20000, 30000, 25000, 35000, 40000, 45000, 40000, 30000];
+    const avgData = [25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000];
+
+    // Create chart instance
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Price',
+                    data: priceData,
+                    borderColor: 'linear-gradient(to right, orange, pink)', // Orange to Pink line
+                    borderWidth: 5, // Thicker main line
+                    fill: false, // No fill for this line
+                    pointRadius: 5, // To make the points more prominent
+                    tension: 0.4 // Make the line smooth
+                },
+                {
+                    label: 'Average',
+                    data: avgData,
+                    borderColor: 'grey',
+                    borderWidth: 2, // Thinner grey average line
+                    fill: false,
+                    borderDash: [5, 5] // Dashed line for average
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        color: '#FFFFFF' // Axis label color
+                    },
+                    ticks: {
+                        color: '#FFFFFF' // Ticks color
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Price',
+                        color: '#FFFFFF'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString(); // Format y-axis as currency
+                        },
+                        color: '#FFFFFF'
+                    },
+                    suggestedMin: 0 // Ensures chart starts from zero
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: '#FFFFFF' // Legend labels color
+                    }
+                }
+            }
+        }
+    });
+
+    // Function to update chart dynamically
+    function updateChart(newPrice) {
+        // Update the data and labels dynamically
+        myChart.data.datasets[0].data.push(newPrice);
+        myChart.data.labels.push(getNewDate());
+        myChart.update();
+    }
+
+    // Example of dynamically generating a new date
+    function getNewDate() {
+        const date = new Date();
+        return date.toLocaleDateString('en-GB').split('/').slice(0, 2).join('/');
+    }
+    updateChart(100000)
+</script>
+
+
+</html>

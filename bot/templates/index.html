@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+
+        header {
+            background: #000000;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #000000;
+            padding: 15px 0;
+            position: absolute;
+            left: 500px;
+            top: 20px;
+        }
+
+        nav a {
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        nav a:hover {
+            background: #000000;
+            transform: scale(1.05);
+        }
+
+        .container {
+            position: absolute;
+            top: 550px;
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background: black;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: black;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 25%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 2px solid #000000;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            position: absolute;
+            top: -20px;
+            left: 620px;
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background 0.3s, transform 0.2s;
+            display: block;
+            margin: 60px auto 20px; /* Adjust margin to position button */
+            height: 80px;
+            width: 180px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color:black;
+            color: white;
+            position: absolute;
+            width: 97%;
+            bottom: 0;
+        }
+
+        a {
+            color: #00796b;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            height: 80px;
+            width: 80px;
+        }
+
+        .error-message {
+            color: red;
+            position: absolute;
+            top: 756px;
+            left: 46px;
+        }
+        #logo2{
+            position: absolute;
+            height: 120px;
+            width: 120px;
+            top: 130px;
+            left: 650px;
+        }
+        #name{
+            position: absolute;
+            top: 230px;
+            left: 570px;
+            color: white;
+            font-size: 80px;
+        }
+        #descrpt{
+            position: absolute;
+            top: 350px;
+            left: 380px;
+            color: white;
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <img id="logo" src="/static/logo_nav.jpg" alt="Trading Bot Logo">
+    </header>
+
+    <nav>
+        <a href="/Moneymanegment">Money Management Plan</a>
+        <a href="/contact">Contact Us</a>
+        <a href="/Generatekey">Generate key</a>
+    </nav>
+
+    <logo>
+        <img id="logo2" src="/static/logo.png" alt="Logo">
+    </logo>
+
+    <name>
+        <h1 id="name">Nex-AL</h1>
+    </name>
+    <discription>
+        <p id="descrpt">Nex-Al The A.I Genius That Delivers<br>Winning Signals and Consistant <br>Profits</p>
+    </discription>
+    <div class="container">
+        <form id="key_input_box" action="/checkingkey" method="post">
+            {% csrf_token %}
+            <section id="money-management">
+                <input type="text" placeholder="Enter your key here" name="Key" required /><br>
+                <input type="text" placeholder="Enter your username" name="username" required>
+                <button type="submit">Start Nex-Al</button>
+            </section>
+        </form>
+    </div>
+
+    {% if error %}
+    <div class="error-message">The above infomation is incorrect.</div>
+    {% endif %}
+
+    <footer>
+        <p>&copy; 2024 Trading Bot. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

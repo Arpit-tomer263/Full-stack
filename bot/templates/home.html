@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        @font-face {
+            font-family: 'Telegram Std';
+            src: url('/static/fonts/TelegramStd.woff2') format('woff2'),
+                url('/static/fonts/TelegramStd.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Telegram Std', sans-serif;
+        }
+
+        body {
+            background-image: url(/static/bg.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #h2_wrapper {
+            position: relative;
+            height: 80px;
+            width: 180px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 150px 200px 0 1100px; /* Adjust the margin to position correctly */
+        }
+
+        #h2 {
+            font-size: 17px;
+            color: black;
+            position: absolute;
+            left: 25px;
+            top: 30px;
+            z-index: 1;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: -100%; }
+        }
+
+        .scanner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: green;
+            animation: scan 2s linear infinite;
+        }
+
+        #signalsContainer {
+            position: relative;
+            margin: 0 0 0 200px;
+            width: 250px;
+            min-height: calc(100vh - 230px); /* Start with a minimum height */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .message, .MTG, .Result {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: black;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-top: 15px;
+            display: block;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(50px); opacity: 0; }
+            50% { transform: translateY(-10px); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .result-show {
+            animation: bounce 0.6s ease-out;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="h2_wrapper">
+        <div class="scanner"></div>
+        <h2 id="h2">Finding Signal</h2>
+    </div>
+
+    <!-- Container for real-time signals -->
+    <div id="signalsContainer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signalsContainer = document.getElementById('signalsContainer');
+
+            let socket;  // Declare socket using let to allow reassignment
+
+            function connectSocket() {
+                socket = new WebSocket('ws://localhost:8766');  // Connect to WebSocket server
+
+                socket.onmessage = function (event) {
+                    
+                    // Remove console.log statements
+                    // console.log('Received message:', event.data);
+
+                    try {
+                        const data = JSON.parse(event.data);
+
+                        if (data.Signal) {
+                            // Create a new div for the signal
+                            const signalDiv = document.createElement('div');
+                            signalDiv.className = 'message';
+                            signalDiv.innerHTML = `<p>${data.Signal}</p><p>${data.time}</p><p>${data.wait}</p>`;
+                            signalsContainer.appendChild(signalDiv);
+                        }
+
+                        if (data.mtg) {
+                            // Create a new div for the martingale
+                            const mtgDiv = document.createElement('div');
+                            mtgDiv.className = 'MTG';
+                            mtgDiv.innerHTML = `<p>${data.mtg}</p>`;
+                            signalsContainer.appendChild(mtgDiv);
+                        }
+
+                        if (data.result) {
+                            // Create a new div for the result
+                            const resultDiv = document.createElement('div');
+                            resultDiv.className = 'Result result-show';
+                            resultDiv.innerHTML = `<p>${data.result}</p>`;
+                            signalsContainer.appendChild(resultDiv);
+                        }
+                    } catch (e) {
+                        // Remove console.error statements
+                        console.error('Error parsing WebSocket message:', e);
+                        // Handle plain text message
+                        const plainTextDiv = document.createElement('div');
+                        plainTextDiv.className = 'Result result-show';
+                        plainTextDiv.innerHTML = `<p>${event.data}</p>`;
+                        signalsContainer.appendChild(plainTextDiv);
+                    }
+                };
+
+                socket.onopen = function () {
+                    // Remove console.log statements
+                    console.log('WebSocket connection established');
+                };
+
+                socket.onclose = function () {
+                    // Remove console.log statements
+                    console.log('WebSocket connection closed');
+                    // Attempt to reconnect after a delay
+                    setTimeout(connectSocket, 5000);
+                };
+
+                socket.onerror = function (error) {
+                    // Remove console.error statements
+                    console.error('WebSocket error:', error);
+                };
+            }
+
+            connectSocket();  // Initial WebSocket connection
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Key</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 350px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #00796b;
+            border-radius: 8px;
+            font-size: 18px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #004d40;
+        }
+
+        button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+            width: 350px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #004d40;
+            transform: scale(1.03);
+        }
+
+        #key-box {
+            position: absolute;
+            background: white;
+            top: 652px;
+            left: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 50px;
+            width: 500px;
+        }
+
+        #logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+        }
+
+        #lbl {
+            position: absolute;
+            top: 30px;
+            left: 150px;
+        }
+
+        #Qr {
+            position: absolute;
+            top: 150px;
+            left: 600px;
+            width: 250px;
+            height: 250px;
+        }
+
+        #G-pay {
+            position: absolute;
+            top: 391px;
+            left: 500px;
+            width: 112px;
+            height: 93px;
+        }
+
+        #UPi {
+            position: absolute;
+            left: 640px;
+            top: 406px;
+            width: 104px;
+            height: 63px;
+        }
+
+        #P-pay {
+            position: absolute;
+            left: 750px;
+            top: 380px;
+            width: 150px;
+            height: 110px;
+        }
+
+        /* Timer Styling */
+        #timer {
+            font-size: 24px;
+            color: black;
+            font-weight: 800;
+            margin-top: 0px;
+            position: absolute;
+            left: 620px;
+            top: 480px;
+        }
+
+        /* Time over message */
+        #time-over {
+            position: absolute;
+            left: 597px;
+            top: 424px;
+            display: none;
+            color: red;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        #ptcont{
+            position: absolute;
+            top: 530px;
+            left: 400px;
+        }
+        .all{
+            display: block;
+        }
+        #tick{
+            position:absolute;
+            top: 150px;
+            left: 600px;
+        }
+        #conf{
+            position: absolute;
+            left: 580px;
+            top: 400px;
+        }
+        #key_get{
+            position: absolute;
+            top: 500px;
+            left: 550px;
+        }
+        #ft2{
+            position: absolute;
+            top: 500px;
+            left: 450px;
+        }
+        #eml_wrn{
+            position: absolute;
+            color: red;
+            left: 480px;
+            top: 100px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    
+        <img src="/static/logo.png" id="logo" alt="Trading Bot Logo">
+        <h1 id="lbl">Al-Nex Generate Key Portal</h1>
+    <div class="all"  {% if Flag%}style="display:none"{% else%}style="display: block;"{% endif %} >
+        <img id="Qr" src="/static/QR.jpg">
+   
+        <img id="G-pay" src="/static/Googlepay.png">
+        <img id="UPi" src="/static/UPI.png">
+        <img id="P-pay" src="/static/Phonepay.png">
+
+         <!-- Timer -->
+        <div id="timer">Time Left: 5:00</div>
+
+        <form action="/Checkutr" method="post">
+            {%csrf_token%}
+           <div id="ptcont"> 
+                <input type="text" placeholder="Enter Your UTR number" id="inpt_utr" name="utr" required>
+                <button type="submit">Submit UTR</button>
+            </div>
+        </form>
+    </div>
+   
+    <form action='/Generatekey' method="post"   id="conf_cnt" > 
+        {%csrf_token%}  
+        <div {% if Flag%}style="display:block;"{% else%}style="display: none;"{% endif %}>
+            <img src="/static/tick.png" id="tick">
+            <h1  id="conf">Payment Confimed!</h1>
+            <div id="key-box" {% if key %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+                <h2>Your key is, please save this key securely:</h2>
+                <h1 id="key">{{ key }}</h1>
+            </div>
+            <div id="ft2">
+                <input type="text" placeholder="Enter You're username" id="inpt_utr" name="username" required>
+                <input type="text" placeholder="Enter You're E-mail" id="inpt_utr_eml" name="Email" required>
+                <p id="eml_wrn">The Email is not correct pls correct it</p>
+                <button type="submit">Get Key</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Time over message -->
+    <div id="time-over">Time is over, please try again!</div>
+    
+    
+
+    <!-- Display the key if it exists -->
+  
+
+    <script>
+        // Set the countdown time to 5 minutes (300 seconds)
+        let timeLeft = 300; 
+
+        // Reference to the timer and payment images
+        const timerDisplay = document.getElementById("timer");
+        const paymentLogos = document.getElementById("G-pay");
+        const upiLogo = document.getElementById("UPi");
+        const phonePayLogo = document.getElementById("P-pay");
+        const cnf = document.getElementById("conf_cnt");
+        const keybox = document.getElementById("key-box");
+        const ft2 = document.getElementById("ft2");
+
+
+
+        const timeOverMessage = document.getElementById("time-over");
+        const allElements = document.querySelector('.all');
+    
+        
+        // Countdown function
+        const countdown = setInterval(function () {
+            // Calculate minutes and seconds
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+
+            // Add a leading zero if seconds is less than 10
+            if (seconds < 10) seconds = "0" + seconds;
+
+            // Display the time left
+            timerDisplay.innerHTML = `Time Left: ${minutes}:${seconds}`;
+
+            // Reduce time left by 1 second
+            timeLeft--;
+
+            // When time is over
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                // Hide payment logos
+                paymentLogos.style.display = "none";
+                upiLogo.style.display = "none";
+                phonePayLogo.style.display = "none";
+                allElements.style.display = "none";
+                // Show time over message
+                timeOverMessage.style.display = "block";
+
+                // Hide the timer
+                timerDisplay.style.display = "none";
+            }
+        }, 1000); // Update every second (1000 ms)
+        function validateEmail() {
+            const emailInput = document.getElementById("inpt_utr_eml").value;
+            const emailWarning = document.getElementById("eml_wrn");
+
+            // Simple email validation regex pattern
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+            if (!emailPattern.test(emailInput)) {
+                // If the email is invalid, show the warning and prevent form submission
+                emailWarning.style.display = "block";
+                return false; // Prevent form submission
+            }
+
+            // If the email is valid, hide the warning
+            emailWarning.style.display = "none";
+            return true; // Allow form submission
+        }
+    </script>
+
+</body>
+
+</html>
